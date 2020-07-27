@@ -90,18 +90,19 @@ _Note:  Proceed when the status of the notebook instance changes from `Pending` 
 
 ## 5. Launch a new Terminal within the Jupyter notebook
 
-Click `File` > `New` > `Terminal` to launch a terminal in your Jupyter instance.
+Click `File` > `New` > [...scroll down...] `Terminal` to launch a terminal in your Jupyter instance.
 
 ![](img/launch_jupyter_terminal.png)
 
 ## 6. Clone this GitHub Repo in the Terminal
 
+![](img/clone-workshop-repo.png)
+
 Within the Jupyter terminal, run the following:
+
 ```
 cd ~/SageMaker && git clone https://github.com/data-science-on-aws/workshop
 ```
-
-![](img/clone-workshop-repo.png)
 
 ## 7. Navigate Back to Notebook View
 
@@ -110,8 +111,6 @@ cd ~/SageMaker && git clone https://github.com/data-science-on-aws/workshop
 ## 8. Start the Workshop!
 Navigate to `01_intro/` in your Jupyter notebook and start the workshop!
 
+_You may need to refresh your browser if you don't see the new `workshop/` directory._
+
 ![Start Workshop](img/start_workshop.png)
-
-
-# Disclaimer
-* The content provided in this repository is for demonstration purposes and not meant for production. You should use your own discretion when using the content.

@@ -18,17 +18,25 @@ This workshop is FREE, but would otherwise cost <25 USD.
 
 # Workshop Instructions
 
-## 1. Click on AWS Console
+## 0. Click on AWS Console
+
+Please logout of your AWS Console in all browser tabs before you continue.
+
+![AWS Console](img/account-settings.png)
 
 Take the defaults and click on **Open AWS Console**. This will open AWS Console in a new browser tab.
 
 ![AWS Console](img/alt_aws_console.png)
 
-Double-check that your account name is something like `IibsAdminAccess-DO-NOT-DELETE...` as follows:
+_Double-check that your account name is something like `IibsAdminAccess-DO-NOT-DELETE...` as follows:_
 
 ![IAM Role](img/alt_iibsadminaccess.png)
 
-If not, please logout of your AWS Console in all browser tabs and re-run the steps above!
+_If not, please logout of your AWS Console in all browser tabs and re-run the steps above!_
+
+## 1. Select Region Closest to You
+
+![](img/select-region.png)
 
 ## 2. Create `TeamRole` IAM Role
 
@@ -60,7 +68,7 @@ In the AWS Console search bar, type `SageMaker` and select `Amazon SageMaker` to
 
 In the Notebook instance name text box, enter `workshop`.
 
-Choose `ml.t3.medium`. We'll only be using this instance to launch jobs. The training job themselves will run either on a SageMaker managed cluster or an Amazon EKS cluster.
+Choose `ml.t3.medium` (or alternatively `ml.t2.medium`). We'll only be using this instance to launch jobs. The training job themselves will run either on a SageMaker managed cluster or an Amazon EKS cluster.
 
 Volume size `250` - this is needed to explore datasets, build docker containers, and more.  During training data is copied directly from Amazon S3 to the training cluster when using SageMaker.  When using Amazon EKS, we'll setup a distributed file system that worker nodes will use to get access to training data.
 
@@ -110,18 +118,19 @@ _Note:  Proceed when the status of the notebook instance changes from `Pending` 
 
 ## 5. Launch a new Terminal within the Jupyter notebook
 
-Click `File` > `New` > `Terminal` to launch a terminal in your Jupyter instance.
+Click `File` > `New` > [...scroll down...] `Terminal` to launch a terminal in your Jupyter instance.
 
 ![](img/launch_jupyter_terminal.png)
 
 ## 6. Clone this GitHub Repo in the Terminal
 
+![](img/clone-workshop-repo.png)
+
 Within the Jupyter terminal, run the following:
+
 ```
 cd ~/SageMaker && git clone https://github.com/data-science-on-aws/workshop
 ```
-
-![](img/clone-workshop-repo.png)
 
 ## 7. Navigate Back to Notebook View
 
@@ -130,8 +139,6 @@ cd ~/SageMaker && git clone https://github.com/data-science-on-aws/workshop
 ## 8. Start the Workshop!
 Navigate to `01_intro/` in your Jupyter notebook and start the workshop!
 
+_You may need to refresh your browser if you don't see the new `workshop/` directory._
+
 ![Start Workshop](img/start_workshop.png)
-
-
-# Disclaimer
-* The content provided in this repository is for demonstration purposes and not meant for production. You should use your own discretion when using the content.
