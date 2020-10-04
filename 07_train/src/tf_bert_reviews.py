@@ -12,7 +12,7 @@ import tensorflow as tf
 #subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tensorflow==2.1.0'])
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'transformers==2.8.0'])
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'sagemaker-tensorflow==2.1.0.1.0.0'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'smdebug==0.8.0'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'smdebug==0.9.3'])
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'scikit-learn==0.23.1'])
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'matplotlib==3.2.1'])
 from transformers import DistilBertTokenizer
@@ -62,7 +62,7 @@ def file_based_input_dataset_builder(channel,
         dataset = tf.data.TFRecordDataset(input_filenames)
 
     dataset = dataset.repeat(epochs * steps_per_epoch * 100)
-    dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
+#    dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
 
     name_to_features = {
       "input_ids": tf.io.FixedLenFeature([max_seq_length], tf.int64),
@@ -87,12 +87,18 @@ def file_based_input_dataset_builder(channel,
           drop_remainder=drop_remainder,
           num_parallel_calls=tf.data.experimental.AUTOTUNE))
 
-    dataset.cache()
+#    dataset.cache()
 
-    if is_training:
-        dataset = dataset.shuffle(seed=42,
-                                  buffer_size=100,
-                                  reshuffle_each_iteration=True)
+    dataset = dataset.shuffle(buffer_size=1000,
+                              reshuffle_each_iteration=True)
+
+    row_count = 0
+    print('**************** {} *****************'.format(channel))
+    for row in dataset.as_numpy_iterator():
+        print(row)
+        if row_count == 5:
+            break
+        row_count = row_count + 1
 
     return dataset
 
@@ -158,7 +164,7 @@ if __name__ == '__main__':
                         default=False)
     parser.add_argument('--max_seq_length',
                         type=int,
-                        default=128)
+                        default=64)
     parser.add_argument('--train_batch_size',
                         type=int,
                         default=128)

@@ -85,7 +85,9 @@ def convert_input(text_input, max_seq_length):
     #
     encode_plus_tokens = tokenizer.encode_plus(text_input.text,
                                                pad_to_max_length=True,
-                                               max_length=max_seq_length)
+                                               max_length=max_seq_length,
+#                                               truncation=True
+                                              )
 
     # The id from the pre-trained BERT vocabulary that represents the token.  (Padding of 0 will be used if the # of tokens is less than `max_seq_length`)
     input_ids = encode_plus_tokens['input_ids']
@@ -186,7 +188,7 @@ def parse_args():
         default=False
     )
     parser.add_argument('--max-seq-length', type=int,
-        default=128,
+        default=64,
     )  
     
     return parser.parse_args()
@@ -254,8 +256,11 @@ def _transform_tsv_to_tfrecord(file,
                                random_state = 27)
 
         df_balanced = pd.concat([five_star_df, four_star_df, three_star_df, two_star_df, one_star_df])
+
         df_balanced = df_balanced.reset_index(drop=True)        
         print('Shape of balanced dataframe {}'.format(df_balanced.shape))
+        print(df_balanced['star_rating'].head(100))
+
         df = df_balanced
         
     print('Shape of dataframe before splitting {}'.format(df.shape))

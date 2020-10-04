@@ -1,3 +1,7 @@
+cluster*/
+sagemaker-full.json
+bert-pipeline.zip
+sourcedir.tar.gz
 src/mnist/src/__pycache__/
 a.out
 b.out
