@@ -1,8 +1,3 @@
-# Attend our Free, Online, Full-Day Workshop!
-You must register on [**Eventbrite**](https://www.eventbrite.com/e/full-day-workshop-kubeflow-gpu-kerastensorflow-20-tf-extended-tfx-kubernetes-pytorch-xgboost-tickets-63362929227).  
-
-_All instructions will come through Eventbrite.  Please make sure your Eventbrite email address is up to date._
-
 # Upcoming O'Reilly Book:  _Data Science on AWS_
 Register for early access directly on our [**website**](https://datascienceonaws.com).
 
@@ -10,104 +5,136 @@ Request one of our [**talks**](https://datascienceonaws.com) for your conference
 
 [![Data Science on AWS](img/data-science-on-aws-book.png)](https://datascienceonaws.com)
 
-# Workshop Cost - FREE
+
+# Workshop Description
+
+In this workshop, we build a natural language processing (NLP) model to classify sample Twitter comments and customer-support emails using the state-of-the-art [BERT](https://arxiv.org/abs/1810.04805) model for language representation.
+
+To build our BERT-based NLP model, we use the [Amazon Customer Reviews Dataset](https://s3.amazonaws.com/amazon-reviews-pds/readme.html) which contains 150+ million customer reviews from Amazon.com for the 20 year period between 1995 and 2015.  In particular, we train a classifier to predict the `star_rating` (1 is bad, 5 is good) from the `review_body` (free-form review text).
+
+
+# Workshop Cost
 This workshop is FREE, but would otherwise cost <25 USD.
 
 ![Workshop Cost](img/billing.png)
 
+
 # Workshop Agenda
-[![Workshop Agenda](img/outline.png)](https://www.eventbrite.com/e/full-day-workshop-kubeflow-gpu-kerastensorflow-20-tf-extended-tfx-kubernetes-pytorch-xgboost-tickets-63362929227)
+
+![Workshop Agenda](img/outline.png)
+
 
 # Workshop Instructions
-_Note:  This workshop will create an ephemeral AWS acccount for each attendee.  This ephemeral account is not accessible after the workshop.  You can, of course, clone this GitHub repo and reproduce the entire workshop in your own AWS Account._
 
-## 0. Logout of All AWS Consoles Across All Browser Tabs
-If you do not logout of existing AWS Consoles, things will not work properly.
+## 0. Click on AWS Console
 
-![AWS Account Logout](img/aws-logout.png)
+Please logout of your AWS Console in all browser tabs before you continue.
 
-_Please logout of all AWS Console sessions in all browser tabs._
-
-## 1. Login to the Workshop Portal (aka Event Engine). 
-
-![Event Box Event Engine Account](img/eb-aws-account-clean.png) 
-
-![Event Box Launch](img/launch.png)
-
-![Event Engine Terms and Conditions](img/event-engine-terms.png)
-
-![Event Engine Dashboard](img/event-engine-dashboard.png)
-
-
-## 2. Login to the **AWS Console**
-
-![Event Engine AWS Console](img/event-engine-aws-console.png)
+![AWS Console](img/account-settings.png)
 
 Take the defaults and click on **Open AWS Console**. This will open AWS Console in a new browser tab.
 
-If you see this message, you need to logout from any previously used AWS accounts.
+![AWS Console](img/alt_aws_console.png)
 
-![AWS Account Logout](img/aws-logout.png)
+_Double-check that your account name is something like `IibsAdminAccess-DO-NOT-DELETE...` as follows:_
 
-_Please logout of all AWS Console sessions in all browser tabs._
+![IAM Role](img/alt_iibsadminaccess.png)
 
-Double-check that your account name is similar to `TeamRole/MasterKey` as follows:
+_If not, please logout of your AWS Console in all browser tabs and re-run the steps above!_
 
-![IAM Role](img/teamrole-masterkey.png)
+## 1. Select either `us-east-1`, `us-west-2`, or `eu-west-1` as your region
 
-If not, please logout of your AWS Console in all browser tabs and re-run the steps above!
+![](img/select-one-from-3-regions.png)
 
 
-## 3. Launch a SageMaker Notebook Instance
+## 2. Create `TeamRole` IAM Role
+
+![IAM](img/alt_iam_1.png)
+
+![Roles](img/alt_roles_2.png)
+
+![Create Role](img/alt_create_role_3.png)
+
+![Select Service](img/alt_select_service_4.png)
+
+![Select Policy](img/alt_select_policy_5.png)
+
+![Add Tags](img/alt_add_tags_6.png)
+
+![Review Name](img/alt_review_name_7.png)
+
+
+## 3. Launch an Amazon SageMaker Notebook Instance
 
 Open the [AWS Management Console](https://console.aws.amazon.com/console/home)
 
-**Note:** This workshop has been tested on the US West (Oregon) (us-west-2) region. Make sure that you see **Oregon** on the top right hand corner of your AWS Management Console. If you see a different region, click the dropdown menu and select US West (Oregon).
+![Back to SageMaker](img/alt_back_to_sagemaker_8.png)
 
 In the AWS Console search bar, type `SageMaker` and select `Amazon SageMaker` to open the service console.
 
-![SageMaker Console](img/setup_aws_console.png). 
+![Notebook Instances](img/alt_notebook_instances_9.png)
 
-Select `Create notebook instance`.
-
-![SageMaker Console](img/aws-sagemaker-dashboard.png).
-
-![SageMaker Console](img/create-notebook-instance.png)
+![Create Notebook Part 1](img/alt_create_notebook_10.png)
 
 In the Notebook instance name text box, enter `workshop`.
 
-Choose `ml.c5.2xlarge`. We'll only be using this instance to launch jobs. The training job themselves will run either on a SageMaker managed cluster or an Amazon EKS cluster.
+Choose `ml.t3.medium`. We'll only be using this instance to launch jobs. The training job themselves will run either on a SageMaker managed cluster or an Amazon EKS cluster.
 
 Volume size `250` - this is needed to explore datasets, build docker containers, and more.  During training data is copied directly from Amazon S3 to the training cluster when using SageMaker.  When using Amazon EKS, we'll setup a distributed file system that worker nodes will use to get access to training data.
 
-![Fill notebook instance](img/notebook-setup01.png)
+![Fill notebook instance](img/alt-notebook-setup01.png)
 
-In the IAM role box, select the default `TeamRole`.
+In the IAM role box, select the default `TeamRole`, leave the rest to its defaults, and then click `Create notebook instance`.
 
-![Fill notebook instance](img/notebook-setup02.png)
+![Fill notebook instance](img/permissions.png)
 
-Click `Create notebook instance`.
+On the `Notebook instances` section you should see the status change from `Pending` -> `InService`
 
-![Fill notebook instance](img/notebook-setup03-no-vpc.png)
-
-
-## 4. Start the Jupyter Notebook
-
-_Note:  Proceed when the status of the notebook instance changes from `Pending` to `InService` after a few minutes._
-
-![Start Jupyter](img/start_jupyter.png)
+While the notebook spins up, continue to work on the next section.  We'll come back to the notebook when it's ready.
 
 
-## 5. Launch a New Terminal within the Jupyter Notebook
+## 4. Update IAM Role Policy
+
+Click on the `notebook` instance to see the instance details.
+
+![Notebook Instance Details](img/alt_click_notebook_instance.png)
+
+Click on the IAM role link and navigate to the IAM Management Console.
+
+![IAM Role](img/alt_update_iam.png)
+
+Click `Attach Policies`.
+
+![IAM Policy](img/alt_view_policies.png)
+              
+Select `IAMFullAccess` and click on `Attach Policy`.
+
+_Note:  Reminder that you should allow access only to the resources that you need._ 
+
+![Attach Admin Policy](img/alt_attach_policies.png)
+
+Confirm the Policies
+
+![Confirm Policies](img/alt_confirm_policies.png)
+
+
+## 5. Start the Jupyter notebook
+
+_Note:  Proceed when the status of the notebook instance changes from `Pending` to `InService`._
+
+![Back to SageMaker Notebooks](img/alt_back_to_sagemaker_8.png)
+
+![Start Jupyter](img/alt_start_jupyter.png)
+
+
+## 6. Launch a new Terminal within the Jupyter notebook
 
 Click `File` > `New` > [...scroll down...] `Terminal` to launch a terminal in your Jupyter instance.
 
 ![](img/launch_jupyter_terminal.png)
 
 
-## 6. Clone this GitHub Repo in the Terminal
-
-Within the Jupyter terminal, run the following:
+## 7. Clone this GitHub Repo in the Terminal
 
 ```
 cd ~/SageMaker && git clone https://github.com/data-science-on-aws/workshop
@@ -115,18 +142,19 @@ cd ~/SageMaker && git clone https://github.com/data-science-on-aws/workshop
 
 ![](img/clone-workshop-repo.png)
 
-**REPEATING AGAIN - THIS IS IMPORTANT - MAKE SURE YOU RUN THIS IN THE JUPYTER TERMINAL**
+Within the Jupyter terminal, run the following:
+
 ```
 cd ~/SageMaker && git clone https://github.com/data-science-on-aws/workshop
 ```
 
 
-## 7. Navigate Back to Notebook View
+## 8. Navigate Back to Notebook View
 
 ![](img/back-to-jupyter-notebook.png)
 
 
-## 8. Start the Workshop!
+## 9. Start the Workshop!
 Navigate to `01_setup/` in your Jupyter notebook and start the workshop!
 
 _You may need to refresh your browser if you don't see the new `workshop/` directory._

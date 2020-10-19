@@ -6,6 +6,13 @@ Request one of our [**talks**](https://datascienceonaws.com) for your conference
 [![Data Science on AWS](img/data-science-on-aws-book.png)](https://datascienceonaws.com)
 
 
+# Workshop Description
+
+In this workshop, we build a natural language processing (NLP) model to classify sample Twitter comments and customer-support emails using the state-of-the-art [BERT](https://arxiv.org/abs/1810.04805) model for language representation.
+
+To build our BERT-based NLP model, we use the [Amazon Customer Reviews Dataset](https://s3.amazonaws.com/amazon-reviews-pds/readme.html) which contains 150+ million customer reviews from Amazon.com for the 20 year period between 1995 and 2015.  In particular, we train a classifier to predict the `star_rating` (1 is bad, 5 is good) from the `review_body` (free-form review text).
+
+
 # Workshop Cost
 This workshop is FREE, but would otherwise cost <25 USD.
 
@@ -35,9 +42,9 @@ _Double-check that your account name is something like `IibsAdminAccess-DO-NOT-D
 
 _If not, please logout of your AWS Console in all browser tabs and re-run the steps above!_
 
-## 1. Select Region Closest to You
+## 1. Select either `us-east-1`, `us-west-2`, or `eu-west-1` as your region
 
-![](img/select-region.png)
+![](img/select-one-from-3-regions.png)
 
 
 ## 2. Create `TeamRole` IAM Role
@@ -71,21 +78,17 @@ In the AWS Console search bar, type `SageMaker` and select `Amazon SageMaker` to
 
 In the Notebook instance name text box, enter `workshop`.
 
-Choose `ml.t3.medium` (or alternatively `ml.t2.medium`). We'll only be using this instance to launch jobs. The training job themselves will run either on a SageMaker managed cluster or an Amazon EKS cluster.
+Choose `ml.t3.medium`. We'll only be using this instance to launch jobs. The training job themselves will run either on a SageMaker managed cluster or an Amazon EKS cluster.
 
 Volume size `250` - this is needed to explore datasets, build docker containers, and more.  During training data is copied directly from Amazon S3 to the training cluster when using SageMaker.  When using Amazon EKS, we'll setup a distributed file system that worker nodes will use to get access to training data.
 
 ![Fill notebook instance](img/alt-notebook-setup01.png)
 
-In the IAM role box, select the default `TeamRole`.
+In the IAM role box, select the default `TeamRole`, leave the rest to its defaults, and then click `Create notebook instance`.
 
-![Fill notebook instance](img/notebook-setup02.png)
+![Fill notebook instance](img/permissions.png)
 
-You must select the default `VPC`, `Subnet`, and `Security group` as shown in the screenshow.  Your values will likely be different.  This is OK.
-
-Keep the default settings for the other options not highlighted in red, and click `Create notebook instance`.  On the `Notebook instances` section you should see the status change from `Pending` -> `InService`
-
-![Fill notebook instance](img/alt-notebook-setup03.png)
+On the `Notebook instances` section you should see the status change from `Pending` -> `InService`
 
 While the notebook spins up, continue to work on the next section.  We'll come back to the notebook when it's ready.
 
